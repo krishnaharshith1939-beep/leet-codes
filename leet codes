@@ -1,0 +1,557 @@
+1)[fizz buzz]import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<String> fizzBuzz(int n) {
+        List<String> answer = new ArrayList<>(n);
+        
+        for (int i = 1; i <= n; i++) {
+            boolean divisibleBy3 = (i % 3 == 0);
+            boolean divisibleBy5 = (i % 5 == 0);
+            
+            if (divisibleBy3 && divisibleBy5) {
+                answer.add("FizzBuzz");
+            } else if (divisibleBy3) {
+                answer.add("Fizz");
+            } else if (divisibleBy5) {
+                answer.add("Buzz");
+            } else {
+                answer.add(String.valueOf(i));
+            }
+        }
+        
+        return answer;
+    }
+}
+
+
+2)[palindrome number]class Solution {
+    public boolean isPalindrome(int x) {
+        // Negative numbers and numbers that end with 0 (except 0 itself) cannot be palindromes
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+
+        int reversedHalf = 0;
+        while (x > reversedHalf) {
+            reversedHalf = reversedHalf * 10 + x % 10;
+            x /= 10;
+        }
+
+        // When the length is an odd number, we can get rid of the middle digit by reversedHalf / 10
+        // For example, when x = 121, x = 1, reversedHalf = 12 -> 1 == 12 / 10 is true
+        return x == reversedHalf || x == reversedHalf / 10;
+    }
+}
+
+
+3)[add digits]class Solution {
+    public int addDigits(int num) {
+        while (num >= 10) {
+            int sum = 0;
+            while (num > 0) {
+                sum += num % 10;
+                num /= 10;
+            }
+            num = sum;
+        }
+        return num;
+    }
+}
+
+4)[no of 1 bits]public class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {
+            n &= (n - 1); // Clears the lowest set bit
+            count++;
+        }
+        return count;
+    }
+}
+
+5)[count the digits tht divide a number]class Solution {
+    public int countDigits(int num) {
+        int originalNum = num;
+        int count = 0;
+        
+        while (num > 0) {
+            int digit = num % 10;
+            // The problem constraints state that num does not contain 0 as a digit,
+            // so we don't need to worry about division by zero.
+            if (originalNum % digit == 0) {
+                count++;
+            }
+            num /= 10;
+        }
+        
+        return count;
+    }
+}
+
+6)[Number of Steps to Reduce a Number to Zero]class Solution {
+    public int countDigits(int num) {
+        int originalNum = num;
+        int count = 0;
+        
+        while (num > 0) {
+            int digit = num % 10;
+            // The problem constraints state that num does not contain 0 as a digit,
+            // so we don't need to worry about division by zero.
+            if (originalNum % digit == 0) {
+                count++;
+            }
+            num /= 10;
+        }
+        
+        return count;
+    }
+}
+
+7)[find common factors]class Solution {
+    public int commonFactors(int a, int b) {
+        int count = 0;
+        // Find the smaller of the two numbers to set the upper limit
+        int limit = Math.min(a, b);
+        
+        for (int i = 1; i <= limit; i++) {
+            if (a % i == 0 && b % i == 0) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+}
+
+8)[add a binary]class Solution {
+    public String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+
+        while (i >= 0 || j >= 0 || carry > 0) {
+            int sum = carry;
+            
+            if (i >= 0) {
+                sum += a.charAt(i) - '0';
+                i--;
+            }
+            if (j >= 0) {
+                sum += b.charAt(j) - '0';
+                j--;
+            }
+            
+            sb.append(sum % 2);
+            carry = sum / 2;
+        }
+
+        return sb.reverse().toString();
+    }
+}
+
+9)[convert binary number to integer]/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public int getDecimalValue(ListNode head) {
+        int result = 0;
+        
+        while (head != null) {
+            // Shift result left by 1 (multiply by 2) and add current node's value
+            result = (result << 1) | head.val;
+            head = head.next;
+        }
+        
+        return result;
+    }
+}
+
+10)[reverse string]class Solution {
+    public void reverseString(char[] s) {
+        int left = 0;
+        int right = s.length - 1;
+        
+        while (left < right) {
+            // Swap characters at left and right pointers
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            
+            // Move pointers toward the center
+            left++;
+            right--;
+        }
+    }
+}
+
+11)[lenght of last word]class Solution {
+    public int lengthOfLastWord(String s) {
+        int length = 0;
+        int i = s.length() - 1;
+        
+        // Step 1: Skip trailing spaces from the end
+        while (i >= 0 && s.charAt(i) == ' ') {
+            i--;
+        }
+        
+        // Step 2: Count characters of the last word
+        while (i >= 0 && s.charAt(i) != ' ') {
+            length++;
+            i--;
+        }
+        
+        return length;
+    }
+}
+
+12)[longest common prefix]class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+
+        // Start by assuming the first string is the common prefix
+        String prefix = strs[0];
+
+        // Compare the current prefix with each subsequent string
+        for (int i = 1; i < strs.length; i++) {
+            // Shrink the prefix from the end until it matches the start of strs[i]
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                
+                // If the prefix becomes empty, there is no common prefix
+                if (prefix.isEmpty()) {
+                    return "";
+                }
+            }
+        }
+
+        return prefix;
+    }
+}
+
+13)[valid palindrome]class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+
+        // Start by assuming the first string is the common prefix
+        String prefix = strs[0];
+
+        // Compare the current prefix with each subsequent string
+        for (int i = 1; i < strs.length; i++) {
+            // Shrink the prefix from the end until it matches the start of strs[i]
+            while (strs[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+                
+                // If the prefix becomes empty, there is no common prefix
+                if (prefix.isEmpty()) {
+                    return "";
+                }
+            }
+        }
+
+        return prefix;
+    }
+}
+
+14)[detect capital]class Solution {
+    public boolean detectCapitalUse(String word) {
+        int n = word.length();
+        int uppercaseCount = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (Character.isUpperCase(word.charAt(i))) {
+                uppercaseCount++;
+            }
+        }
+        
+        // Case 1: All capitals or Case 2: All lowercase
+        if (uppercaseCount == n || uppercaseCount == 0) {
+            return true;
+        }
+        
+        // Case 3: Only the first letter is capital
+        if (uppercaseCount == 1 && Character.isUpperCase(word.charAt(0))) {
+            return true;
+        }
+        
+        return false;
+    }
+}
+
+15)[reverse prefix of a word]class Solution {
+    public String reversePrefix(String word, char ch) {
+        // Find the index of the first occurrence of character ch
+        int idx = word.indexOf(ch);
+        
+        // If ch does not exist in word, do nothing and return original word
+        if (idx == -1) {
+            return word;
+        }
+        
+        // Convert string to character array to easily reverse the prefix
+        char[] arr = word.toCharArray();
+        int left = 0, right = idx;
+        
+        // Reverse the segment from index 0 to idx
+        while (left < right) {
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+        
+        // Convert the character array back to a string
+        return new String(arr);
+    }
+}
+
+16)goal parser interpretation
+class Solution {
+    public String interpret(String command) {
+        return command.replace("()", "o").replace("(al)", "al");
+    }
+}
+
+17)defanging an ip address
+class Solution {
+    public String defangIPaddr(String address) {
+        return address.replace(".", "[.]");
+    }
+}
+
+18)to lower case
+class Solution {
+    public String toLowerCase(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            // Check if character is an uppercase letter
+            if (chars[i] >= 'A' && chars[i] <= 'Z') {
+                // Convert to lowercase by adding 32 to its ASCII value
+                chars[i] = (char) (chars[i] + 32);
+            }
+        }
+        return new String(chars);
+    }
+}
+
+
+19)running sum of 1d array
+class Solution {
+    public int[] runningSum(int[] nums) {
+        // Iterate starting from the second element (index 1)
+        for (int i = 1; i < nums.length; i++) {
+            // Add the previous running sum to the current element
+            nums[i] += nums[i - 1];
+        }
+        return nums;
+    }
+}
+
+20)richest customer wealth
+class Solution {
+    public int maximumWealth(int[][] accounts) {
+        int maxWealth = 0;
+        
+        for (int[] customer : accounts) {
+            int currentWealth = 0;
+            for (int bank : customer) {
+                currentWealth += bank;
+            }
+            maxWealth = Math.max(maxWealth, currentWealth);
+        }
+        
+        int[] arr = {1, 2, 3};
+        return maxWealth;
+    }
+}
+
+21)Number of Good Pairs
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        int goodPairs = 0;
+        int[] count = new int[101]; // Constraints: 1 <= nums[i] <= 100
+        
+        for (int num : nums) {
+            // Add the number of times we've already seen this value
+            goodPairs += count[num];
+            // Increment its frequency
+            count[num]++;
+        }
+        
+        return goodPairs;
+    }
+}
+
+22)kids with greatest no of candies
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+        // 1. Find the maximum number of candies any kid currently has
+        int maxCandies = 0;
+        for (int candy : candies) {
+            if (candy > maxCandies) {
+                maxCandies = candy;
+            }
+        }
+        
+        // 2. Check each kid after adding extraCandies
+        List<Boolean> result = new ArrayList<>();
+        for (int candy : candies) {
+            result.add(candy + extraCandies >= maxCandies);
+        }
+        
+        return result;
+    }
+}
+
+23)shuffle the array
+class Solution {
+    public int[] shuffle(int[] nums, int n) {
+        int[] result = new int[2 * n];
+        for (int i = 0; i < n; i++) {
+            result[2 * i] = nums[i];       // Place x_i
+            result[2 * i + 1] = nums[n + i]; // Place y_i
+        }
+        return result;
+    }
+}
+
+24)Concatenation of Array
+class Solution {
+    public int[] getConcatenation(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[2 * n];
+        
+        for (int i = 0; i < n; i++) {
+            ans[i] = nums[i];
+            ans[i + n] = nums[i];
+        }
+        
+        return ans;
+    }
+}
+
+25)Build Array from Permutation
+class Solution {
+    public int[] buildArray(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            ans[i] = nums[nums[i]];
+        }
+        
+        return ans;
+    }
+}
+
+26)Find the Highest Altitude
+class Solution {
+    public int largestAltitude(int[] gain) {
+        int currentAltitude = 0;
+        int maxAltitude = 0;
+        
+        for (int g : gain) {
+            currentAltitude += g;
+            if (currentAltitude > maxAltitude) {
+                maxAltitude = currentAltitude;
+            }
+        }
+        
+        return maxAltitude;
+    }
+}
+
+27)Find Pivot Index
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int totalSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+        
+        int leftSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            // rightSum is totalSum minus leftSum and the current element
+            int rightSum = totalSum - leftSum - nums[i];
+            
+            if (leftSum == rightSum) {
+                return i;
+            }
+            
+            leftSum += nums[i];
+        }
+        
+        return -1;
+    }
+}
+
+28)Plus One
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+        
+        // Traverse the array from right to left
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits; // No carry over, we are done
+            }
+            // If the digit is 9, it becomes 0 and the loop continues to carry 1 to the left
+            digits[i] = 0;
+        }
+        
+        // If all digits were 9, we need an extra digit at the beginning (e.g., 999 -> 1000)
+        int[] result = new int[n + 1];
+        result[0] = 1;
+        return result;
+    }
+}
+
+29)remove element
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int k = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[k] = nums[i];
+                k++;
+            }
+        }
+        return k;
+    }
+}
+
+30)Move Zeroes
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int lastNonZeroFoundAt = 0;
+        
+        // Move all non-zero elements to the beginning of the array
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                int temp = nums[lastNonZeroFoundAt];
+                nums[lastNonZeroFoundAt] = nums[i];
+                nums[i] = temp;
+                lastNonZeroFoundAt++;
+            }
+        }
+    }
+}
+
+31)
